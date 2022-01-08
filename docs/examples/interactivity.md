@@ -23,14 +23,12 @@ In this example will make a shape completely defined in the shader.
 
 #### .js file
 ```javascript
-//this variable will hold our shader object
-let shapeShader;
-
 function preload(){
   theShader = loadShader('uniforms.vert', 'uniforms.frag');
 }
 
 function setup() {
+  pixelDensity(1);
   // shaders require WEBGL mode to work
   createCanvas(710, 400, WEBGL);
   noStroke();
@@ -62,7 +60,6 @@ function windowResized(){
 // https://github.com/aferriss/p5jsShaderExamples
 
 attribute vec3 aPosition;
-attribute vec2 aTexCoord;
 
 void main() {
 
@@ -108,7 +105,7 @@ vec4 poly(float x, float y, float size, float sides, float rotation, vec3 col){
   vec2 coord = gl_FragCoord.xy;
 
   // move the coordinates to where we want to draw the shape
-  vec2 pos = vec2(x,y) - coord;
+  vec2 pos = vec2(x,y) - coord * 2.0;
 
   // calculate the angle of a pixel relative to our position
   float angle = atan( pos.x, pos.y) + PI + rotation;
@@ -134,7 +131,7 @@ vec4 poly(float x, float y, float size, float sides, float rotation, vec3 col){
 
 void main() {
 
-  vec2 center = resolution * 2.0; // draw the shape at the center of the screen
+  vec2 center = resolution; // draw the shape at the center of the screen
   float size = resolution.y * 0.5; // make the shape a quarter of the screen height
   float sides = mod(floor(mouse), 7.0) + 3.0; // slowly increase the sides, when it reaches 10 sides, go back down to 3
   float rotation = time; // rotation is in radians, but for time it doesnt really matter
